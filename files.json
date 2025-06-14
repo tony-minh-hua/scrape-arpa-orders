@@ -1,0 +1,22 @@
+[
+  {
+    "name": "query_error_logs.txt",
+    "content": "Query Error Logs saved to path\n"
+  },
+  {
+    "name": "fetching_html_error_logs.txt",
+    "content": "Fetching HTML Error Logs\n"
+  },
+  {
+    "name": "downloading_pdf_error_logs.txt",
+    "content": "Downloading PDF Error Logs\n"
+  },
+  {
+    "name": "uploading_to_s3_error_logs.txt",
+    "content": "Uploading to S3 Error Logs\n"
+  },
+  {
+    "name": "creating_directory_error_logs.txt",
+    "content": "Creating Directory Error Logs\n"
+  }
+]
