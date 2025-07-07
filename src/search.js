@@ -1,6 +1,7 @@
 require("dotenv").config("../.env");
 const axios = require("axios");
 const path = require("path");
+const XLSX = require("xlsx");
 const fsp = require("fs").promises;
 const TOKEN = process.env.TOKEN;
 
@@ -86,16 +87,56 @@ async function googleSearch(query, index, error_logs_path) {
   }
 }
 
+async function performTitleSearches(start, limit, error_logs_path) {
+  const results = [];
+
+  // Load workbook
+  const workbook = XLSX.readFile(path.join(__dirname, 'data', 'ARPA Order Names.xlsx'));
+  const sheetName = workbook.SheetNames[0];
+  const worksheet = workbook.Sheets[sheetName];
+
+  // Convert sheet to array of arrays
+  const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+  // Loop through all rows
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const id = row[0];     // First column: identifier
+    const title = row[1];  // Second column: title
+
+    if (id >= start && id <= limit) {
+      const baseQueries = [
+        { query: `"arpa order" ${title}`, index: 1 }
+      ];
+
+      const searchPromises = baseQueries.map(({ query, index }) => {
+        console.log("Query =>", query);
+        return googleSearch(query, index, error_logs_path);
+      });
+
+      const urlsForCurrentRow = await Promise.all(searchPromises);
+      results.push(urlsForCurrentRow.flat());
+
+      console.log("Processed row with ID", id);
+    }
+  }
+
+  console.log("Finished processing.");
+  return results;
+}
+
 async function performSearches(start, limit, error_logs_path) {
   const results = [];
 
   for (let num = start; num <= limit; num++) {
     let index = num;
+    const row = rows[num];
+    const title = row[1]; // index 1 = second column
     const baseQueries = [
       { query: `"arpa order no ${index}"`, index: 1 },
       { query: `"arpa order ${index}"`, index: 2 },
       { query: `"ao ${index}" arpa`, index: 3 },
-      { query: `"arpa order number ${index}"`, index: 4 }, // 4th query
+      { query: `"arpa order ${index}"`, index: 4 }, // 4th query
     ];
 
     const searchPromises = baseQueries.map(({ query, index }) => {
@@ -112,4 +153,7 @@ async function performSearches(start, limit, error_logs_path) {
   return results;
 }
 
-module.exports = performSearches;
+module.exports = {
+  performSearches,
+  performTitleSearches
+};

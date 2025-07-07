@@ -3,7 +3,7 @@ const fsp = fs.promises;
 const path = require("path");
 require("dotenv").config({ path: ".env" });
 const { URL } = require("url");
-const performSearches = require("./src/search.js");
+const { performSearches } = require("./src/search.js");
 const uploadFileToS3 = require("./utils/aws-s3.js");
 const { bucketName } = require("./config/s3ClientConfig.js");
 const processUrls = require("./src/processURLS.js");
