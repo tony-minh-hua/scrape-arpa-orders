@@ -130,13 +130,11 @@ async function performSearches(start, limit, error_logs_path) {
 
   for (let num = start; num <= limit; num++) {
     let index = num;
-    const row = rows[num];
-    const title = row[1]; // index 1 = second column
     const baseQueries = [
       { query: `"arpa order no ${index}"`, index: 1 },
       { query: `"arpa order ${index}"`, index: 2 },
       { query: `"ao ${index}" arpa`, index: 3 },
-      { query: `"arpa order ${index}"`, index: 4 }, // 4th query
+      { query: `"arpa order number ${index}"`, index: 4 }, // 4th query
     ];
 
     const searchPromises = baseQueries.map(({ query, index }) => {
