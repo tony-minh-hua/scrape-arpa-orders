@@ -98,6 +98,98 @@ async function performTitleSearches(start, limit, error_logs_path) {
   // Convert sheet to array of arrays
   const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
+  const sites = [
+  "academia.edu",
+  "apollo.josefsipek.net",
+  "apps.dtic.mil",
+  "archive.org",
+  "archive.computerhistory.org",
+  "bitsavers.org",
+  "bitsavers.trailing-edge.com",
+  "bitsavers.informatik.uni-stuttgart.de",
+  "chrissmith.house.gov",
+  "cia.gov",
+  "citeseerx.ist.psu.edu",
+  "courses.cs.washington.edu",
+  "coep.ufrj.br",
+  "core.ac.uk",
+  "csd.cmu.edu",
+  "datatracker.ietf.org",
+  "deepblue.lib.umich.edu",
+  "digitalcommons.du.edu",
+  "digital.library.unt.edu",
+  "dl.acm.org",
+  "dla.mil",
+  "dokumen.pub",
+  "dspace.mit.edu",
+  "dtra.mil",
+  "duvalaresjax.org",
+  "www2.eecs.berkeley.edu",
+  "elearningnew.ul.edu.lr",
+  "esd.whs.mil",
+  "escholarship.org",
+  "espis.boem.gov",
+  "files.eric.ed.gov",
+  "ftp.ripe.net",
+  "ftp.cs.wisc.edu",
+  "ftp.math.utah.edu",
+  "gandalfddi.z19.web.core.windows.net",
+  "governmentattic.org",
+  "govinfo.gov",
+  "history.army.mil",
+  "home.army.mil",
+  "ibiblio.org",
+  "ieeexplore.ieee.org",
+  "inis.iaea.org",
+  "link.springer.com",
+  "lib3.dss.go.th",
+  "libsysdigi.library.illinois.edu",
+  "kgs.ku.edu",
+  "media.defense.gov",
+  "meted.ucar.edu",
+  "nal.usda.gov",
+  "nepis.epa.gov",
+  "nordata.physics.utoronto.ca",
+  "nsarchive2.gwu.edu",
+  "nss.org",
+  "ntrs.nasa.gov",
+  "nvlpubs.nist.gov",
+  "opg.optica.org",
+  "osti.gov",
+  "pangea.stanford.edu",
+  "patents.google.com",
+  "people.eecs.berkeley.edu",
+  "people.freebsd.org",
+  "pmc.ncbi.nlm.nih.gov",
+  "projectrho.com",
+  "psc.apl.washington.edu",
+  "publications.csail.mit.edu",
+  "publications.gc.ca",
+  "pubs.geoscienceworld.org",
+  "pubs.usgs.gov",
+  "rand.org",
+  "researchgate.net",
+  "repository.library.noaa.gov",
+  "rfc-editor",
+  "rosap.ntl.bts.gov",
+  "science.gov",
+  "sciencedirect.com",
+  "sciencedirectassets.com",
+  "scribd.com",
+  "slideshare.net",
+  "sites.computer.org",
+  "spig2018.ipb.ac.rs",
+  "thesis.library.caltech.edu",
+  "ttic.edu",
+  "uspermafrost.org",
+  "upload.wikimedia.org",
+  "users.ece.cmu.edu",
+  "vspa.com",
+  "yumpu.com"
+  ];
+
+  const siteFilter = sites.map(site => `site:${site}`).join(" OR ");
+
   // Loop through all rows
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
@@ -106,7 +198,9 @@ async function performTitleSearches(start, limit, error_logs_path) {
 
     if (id >= start && id <= limit) {
       const baseQueries = [
-        { query: `"arpa order" ${title}`, index: 1 }
+        //{ query: `"arpa order" ${title}`, index: 1 }
+        {query: `"arpa order" ${title} ${siteFilter}`,
+        index: 1}
       ];
 
       const searchPromises = baseQueries.map(({ query, index }) => {
