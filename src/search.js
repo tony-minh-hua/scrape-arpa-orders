@@ -198,9 +198,8 @@ async function performTitleSearches(start, limit, error_logs_path) {
 
     if (id >= start && id <= limit) {
       const baseQueries = [
-        //{ query: `"arpa order" ${title}`, index: 1 }
-        {query: `"arpa order" ${title} ${siteFilter}`,
-        index: 1}
+        { query: `"arpa order" ${title} -inurl:22-F-0430_Doc_1_ARPA_Order_Summary_1958-1976.pdf -inurl:22-F-0430_Doc_2_DARPA_1958-1989.pdf`, index: 1 }
+        //{query: `"arpa order" ${title} ${siteFilter} -site:esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/DARPA/22-F-0430_Doc_1_ARPA_Order_Summary_1958-1976.pdf -site:esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/DARPA/22-F-0430_Doc_2_DARPA_1958-1989.pdf`, index: 1}
       ];
 
       const searchPromises = baseQueries.map(({ query, index }) => {

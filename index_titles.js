@@ -17,10 +17,10 @@ process.on("unhandledRejection", (reason, promise) => {
 
 (async () => {
   try {
-    const start = 1;
-    const limit = 2;
+    const start = 690;
+    const limit = 692;
 
-    const saveResults = `${bucketName}/arpa-orders-final-${start}-${limit}/results/`;
+    const saveResults = `${bucketName}/arpa-orders-title-search-final-${start}-${limit}/results/`;
     const error_logs_path = `${saveResults}error_logs/`;
 
     const fileDataPath = "./files.json";
