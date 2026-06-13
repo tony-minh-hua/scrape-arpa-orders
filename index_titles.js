@@ -17,8 +17,8 @@ process.on("unhandledRejection", (reason, promise) => {
 
 (async () => {
   try {
-    const start = 690;
-    const limit = 692;
+    const start = 1;
+    const limit = 1574;
 
     const saveResults = `${bucketName}/arpa-orders-title-search-final-${start}-${limit}/results/`;
     const error_logs_path = `${saveResults}error_logs/`;
